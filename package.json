@@ -1,53 +1,123 @@
 {
-  "name": "storybook-addon-matomo",
-  "version": "1.0.2",
+  "name": "@storybook-community/storybook-addon-matomo",
+  "version": "0.0.0-semantically-released",
   "description": "Storybook addon for Matomo Analytics",
-  "author": "Alex Nicholls (https://github.com/anicholls)",
-  "license": "MIT",
   "keywords": [
-    "addon",
+    "storybook-addons",
+    "storybook-community",
     "storybook",
+    "analytics",
     "matomo"
   ],
-  "storybook": {
-    "displayName": "Matomo",
-    "icon": "https://static.matomo.org/wp-content/uploads/2018/11/DefaultIcon.png"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/storybook-community/storybook-addon-matomo.git"
   },
-  "main": "dist/preset.js",
+  "type": "module",
+  "author": "Alex Nicholls (https://github.com/anicholls)",
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./manager": "./dist/manager.js",
+    "./package.json": "./package.json"
+  },
   "files": [
     "dist/**/*",
     "README.md",
-    "*.js"
+    "manager.js",
+    "preview.js"
   ],
-  "homepage": "https://github.com/anicholls/storybook-addon-matomo",
-  "bugs": {
-    "url": "https://github.com/anicholls/storybook-addon-matomo/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/anicholls/storybook-addon-matomo.git"
-  },
-  "dependencies": {
-    "@datapunt/matomo-tracker-js": "^0.4.0",
-    "@storybook/addons": "6.1.3",
-    "@storybook/core-events": "6.1.3",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.13.10",
-    "@babel/core": "^7.13.10",
-    "@babel/preset-env": "^7.13.10",
-    "@babel/preset-react": "^7.12.13",
-    "@storybook/addon-actions": "^6.1.21",
-    "@storybook/addon-essentials": "^6.1.21",
-    "@storybook/addon-links": "^6.1.21",
-    "@storybook/react": "^6.1.21",
-    "babel-loader": "^8.2.2"
+  "bundler": {
+    "managerEntries": [
+      "src/manager.ts"
+    ]
   },
   "scripts": {
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "build": "babel ./src --out-dir ./dist"
+    "build": "tsup",
+    "build:storybook": "storybook build",
+    "build:watch": "pnpm build --watch",
+    "clean": "rimraf ./dist",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "lint": "eslint --cache .",
+    "lint:fix": "pnpm lint --fix",
+    "pack": "pnpm pack --out storybook-addon-matomo-$(date +%s).tgz",
+    "prebuild": "pnpm clean",
+    "prepare": "husky",
+    "prerelease": "zx scripts/prepublish-checks.js",
+    "release": "pnpm build && pnpm semantic-release",
+    "release:canary": "pnpm build && auto canary",
+    "start": "run-p build:watch \"storybook --quiet\"",
+    "storybook": "storybook dev -p 6006",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage"
+  },
+  "devDependencies": {
+    "@commitlint/config-conventional": "^19.8.1",
+    "@eslint/js": "^9.32.0",
+    "@storybook/addon-docs": "^9.0.18",
+    "@storybook/addon-vitest": "^9.0.18",
+    "@storybook/react-vite": "^9.0.18",
+    "@types/node": "^22.17.0",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^4.7.0",
+    "@vitest/browser": "3.2.3",
+    "@vitest/coverage-istanbul": "3.2.3",
+    "auto": "^11.3.0",
+    "boxen": "^8.0.1",
+    "commitlint": "^19.8.1",
+    "dedent": "^1.6.0",
+    "eslint": "^9.32.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.3",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^16.3.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
+    "npm-run-all": "^4.1.5",
+    "playwright": "^1.54.1",
+    "prettier": "^3.6.2",
+    "prompts": "^2.4.2",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "rimraf": "^6.0.1",
+    "semantic-release": "^24.2.7",
+    "storybook": "^9.0.18",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.38.0",
+    "vite": "^6.3.5",
+    "vitest": "^3.2.4",
+    "zx": "^8.7.2"
+  },
+  "peerDependencies": {
+    "storybook": "^9.0.0"
+  },
+  "resolutions": {
+    "@octokit/core": "^7",
+    "@octokit/request-error": "^7",
+    "@octokit/request": "^10",
+    "@octokit/plugin-paginate-rest": "^13"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true,
+    "registry": "https://registry.npmjs.org/"
+  },
+  "packageManager": "pnpm@10.13.1",
+  "engines": {
+    "node": "=22"
+  },
+  "storybook": {
+    "displayName": "Matomo (community version)",
+    "supportedFrameworks": [
+      "supported-frameworks"
+    ],
+    "icon": "https://raw.githubusercontent.com/storybook-community/storybook-addon-matomo/main/static/icon.png"
   }
 }
