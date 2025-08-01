@@ -40,8 +40,8 @@ import { addons } from 'storybook/manager-api'
 
 addons.setConfig({
   matomo: {
-    baseUrl: 'https://matomo.francetelevisions.tv/',
-    siteId: 18,
+    baseUrl: 'https://your.matomo-instance.com/',
+    siteId: 123456,
   },
 })
 ```
