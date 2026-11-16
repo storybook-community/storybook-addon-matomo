@@ -1,7 +1,7 @@
 import { definePreview } from '@storybook/react-vite'
 import addonDocs from '@storybook/addon-docs'
 
-// to load the built addon in this test Storybook
-import addonMatomo from '../dist/index.js'
+// to load the addon from source in this test Storybook
+import addonMatomo from '../src/index'
 
 export default definePreview({ addons: [addonDocs(), addonMatomo()] })

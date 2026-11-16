@@ -46,8 +46,6 @@ jobs:
         run: pnpm install
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
-      - name: Build addon
-        run: pnpm build
       - name: Run tests
         run: pnpm test:coverage --run
       - name: Upload coverage reports to Codecov
