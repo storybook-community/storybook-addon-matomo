@@ -1,4 +1,4 @@
-import { addons } from 'storybook/manager-api'
+import { addons, type API } from 'storybook/manager-api'
 import Events from 'storybook/internal/core-events'
 import { logger } from 'storybook/internal/client-logger'
 
@@ -13,13 +13,19 @@ declare global {
 }
 window._paq = window._paq || []
 
-function trackPageView(story: string) {
+function getPageTitle(api: API, storyId: string) {
+  const entry = api.getCurrentStoryData()
+  if (entry) {
+    return `Storybook - ${entry.title} - ${entry.name}`
+  }
+  return storyId ? `Storybook - ${storyId}` : document.title
+}
+
+function trackPageView(api: API, storyId: string) {
   logger.debug('Tracking page view in Matomo.')
-  window._paq.push(['setCustomUrl', '/' + window.location.hash.substring(1)])
-  window._paq.push([
-    'setDocumentTitle',
-    story ? `Storybook - ${story}` : document.title,
-  ])
+  // Storybook routes through the `?path=` query parameter, e.g. /story/button--primary.
+  window._paq.push(['setCustomUrl', api.getUrlState().path])
+  window._paq.push(['setDocumentTitle', getPageTitle(api, storyId)])
   window._paq.push(['trackPageView'])
 }
 function trackEvent(event: {
@@ -82,8 +88,8 @@ addons.register(ADDON_ID, (api) => {
     window._paq.push(['enableHeartBeatTimer'])
   }
 
-  api.on(Events.STORY_CHANGED, (story: string) => {
-    trackPageView(story)
+  api.on(Events.STORY_CHANGED, (storyId: string) => {
+    trackPageView(api, storyId)
   })
 
   api.on(Events.STORY_ERRORED, ({ title, description }) => {
