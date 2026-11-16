@@ -1,6 +1,6 @@
-import type { StorybookConfig } from '@storybook/react-vite'
+import { defineMain } from '@storybook/react-vite/node'
 
-const config: StorybookConfig = {
+export default defineMain({
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
     import.meta.resolve('./local-preset.ts'),
@@ -11,6 +11,4 @@ const config: StorybookConfig = {
     name: '@storybook/react-vite',
     options: {},
   },
-}
-
-export default config
+})

@@ -7,29 +7,65 @@
 
 Storybook Addon Matomo can be used to support [Matomo Analytics](https://matomo.org/) in [Storybook](https://storybook.js.org).
 
+## Compatibility
+
+| Addon version | Storybook version |
+| ------------- | ----------------- |
+| 4.x           | 11.x              |
+| 3.x           | 10.x              |
+| 2.x           | 9.x               |
+
 ## Getting Started
 
-Install:
+Run the following command to install and register the addon:
 
 ```sh
-yarn add -D storybook-addon-matomo
+npx storybook add @storybook-community/storybook-addon-matomo
+```
+
+### Manual install
+
+Install the package:
+
+```sh
+yarn add -D @storybook-community/storybook-addon-matomo
 ```
 
 ```sh
-npm install -D storybook-addon-matomo
+npm install -D @storybook-community/storybook-addon-matomo
 ```
 
 ```sh
-pnpm install -D storybook-addon-matomo
+pnpm install -D @storybook-community/storybook-addon-matomo
 ```
 
 In your `.storybook/main.ts` file, add the following:
 
 ```ts
 // .storybook/main.ts
-export default {
-  addons: ['storybook-addon-matomo'],
-}
+
+// Replace your-framework with the framework you are using (e.g., react-vite, nextjs-vite)
+import { defineMain } from '@storybook/your-framework/node'
+
+export default defineMain({
+  // ...rest of config
+  addons: ['@storybook-community/storybook-addon-matomo'],
+})
+```
+
+If your `.storybook/preview.ts` file uses `definePreview`, register the addon there too:
+
+```ts
+// .storybook/preview.ts
+
+// Replace your-framework with the framework you are using (e.g., react-vite, nextjs-vite)
+import { definePreview } from '@storybook/your-framework'
+import addonMatomo from '@storybook-community/storybook-addon-matomo'
+
+export default definePreview({
+  // ...rest of preview
+  addons: [addonMatomo()],
+})
 ```
 
 In your `.storybook/manager.ts` file, add the following config, and adjust values to match your Matomo settings:
