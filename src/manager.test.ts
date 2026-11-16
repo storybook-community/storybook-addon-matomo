@@ -232,6 +232,18 @@ describe('error events', () => {
       name: '"Button" story encountered error: Expecting a valid React element',
     },
     {
+      event: Events.STORY_THREW_EXCEPTION,
+      payload: {
+        name: 'TypeError',
+        message: "Cannot read properties of undefined (reading 'label')",
+        stack:
+          "TypeError: Cannot read properties of undefined (reading 'label')\n" +
+          '    at Button (http://localhost:6006/src/stories/Button.tsx:31:24)',
+      },
+      action: 'story-threw-exception',
+      name: "TypeError: Cannot read properties of undefined (reading 'label')",
+    },
+    {
       event: Events.STORY_MISSING,
       payload: 'example-button--removed',
       action: 'story-missing',

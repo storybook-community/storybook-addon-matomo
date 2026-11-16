@@ -100,11 +100,11 @@ addons.register(ADDON_ID, (api) => {
     })
   })
 
-  api.on(Events.STORY_THREW_EXCEPTION, (err) => {
+  api.on(Events.STORY_THREW_EXCEPTION, ({ name, message }) => {
     trackEvent({
       category: 'error',
       action: 'story-threw-exception',
-      name: err,
+      name: `${name}: ${message}`,
     })
   })
 
